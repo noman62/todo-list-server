@@ -24,8 +24,7 @@ const productSchema = new Schema(
       },
       status: {
         type: String,
-        enum: ['available', 'discontinued'],
-        default: 'available'
+        required:true
       },
       date: {
         type: String,
