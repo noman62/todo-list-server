@@ -18,11 +18,11 @@ export const addProduct = async (req, res) => {
 }
 
 //fetch all product from the database
-
 export const allProduct = async (req, res) => {
     const all = await Product.find().exec()
     res.json(all)
 }
+
 
 //delete a single product
 export const deleteProduct = async (req, res) => {
@@ -40,6 +40,31 @@ export const deleteProduct = async (req, res) => {
     }
 
 }
+
+//get a single product
+export const singleProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+
+        Product.findById(productId, (err, product) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+
+            if (!product) {
+                return res.status(404).json({ error: 'Product not found' });
+            }
+
+            res.json(product);
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+}
+
+
 
 //update single product 
 export const updateProduct = async (req, res) => {
@@ -64,3 +89,16 @@ export const updateProduct = async (req, res) => {
 
 
 
+// DELETE route for deleting multiple products
+export const deleteMultipleProduct = async (req, res) => {
+    try {
+        const { productIds } = req.body;
+
+        // Delete the products with IDs matching the productIds array
+        await Product.deleteMany({ _id: { $in: productIds } });
+
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

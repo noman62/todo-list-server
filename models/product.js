@@ -20,6 +20,7 @@ const productSchema = new Schema(
       },
       unitPrice: {
         type: String,
+        required:true
       },
       status: {
         type: String,
