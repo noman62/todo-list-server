@@ -2,10 +2,12 @@ import Product from "../models/product"
 
 //Add Product
 export const addProduct = async (req, res) => {
+    console.log("noman", req.body);
     try {
 
         // Save product in database
         const newProduct = new Product(req.body)
+        console.log('hi',newProduct);
         await newProduct.save().then(product => {
             console.log('New product----->', product)
         })
@@ -26,6 +28,7 @@ export const allProduct = async (req, res) => {
 
 //delete a single product
 export const deleteProduct = async (req, res) => {
+    console.log(req.params, 'ki');
     try {
         const { id } = req.params;
         const deletedProduct = await Product.findByIdAndDelete(id);
